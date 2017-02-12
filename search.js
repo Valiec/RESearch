@@ -18,7 +18,7 @@ function init()
 	updateErrors(validData.errors, validData.notices);
 	if(inputValid)
 	{
-		var val = box.value.toUpperCase();
+		var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
 		document.getElementById("output").className = "output";
 		updateErrors(validData.errors, validData.notices);
 		var data = triesearch(retree, val);
@@ -26,7 +26,6 @@ function init()
 		for(var enz in data)
 		{
 				var enzdata = document.createElement("li");
-				console.log("data123:", enz, data[enz]);
 				enzdata.innerHTML = enz+processData(data[enz]);
 				enzdata.className = "enzyme";
 				enzymes.appendChild(enzdata);
@@ -69,7 +68,7 @@ function initExample()
 	inputValid = validData.valid;
 	if(inputValid)
 	{
-		var val = box.value.toUpperCase();
+		var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
 		document.getElementById("output").className = "output";
 	}
 	else
@@ -78,13 +77,11 @@ function initExample()
 		document.getElementById("output").className = "outh";
 	}
 	updateErrors(validData.errors, validData.notices);
-	//console.log(retree, val);
 	var data = triesearch(retree, val);
 	enzymes.innerHTML = ""
 	for(var enz in data)
 	{
 			var enzdata = document.createElement("li");
-			console.log("data123:", data[enz]);
 			enzdata.innerHTML = enz+processData(data[enz]);
 			enzdata.className = "enzyme";
 			enzymes.appendChild(enzdata);
@@ -96,7 +93,7 @@ function initExample()
 function validateInput()
 {
 	var dataobj = {valid:true, errors:[], notices:[]};
-	var val = box.value.toUpperCase();
+	var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
 	var strbases = "ATCG";
 	if(val == "")
 	{
@@ -158,7 +155,7 @@ function updateErrors(errors, notices)
 
 
 var seqhandler = function(event){
-	var val = box.value.toUpperCase();
+	var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
 	var strbases = "ATCG";
 
 	validData = validateInput();
@@ -174,13 +171,11 @@ var seqhandler = function(event){
 	updateErrors(validData.errors, validData.notices);
 	if(inputValid && val != "")
 	{
-		//console.log(retree, val);
 		var data = triesearch(retree, val);
 		enzymes.innerHTML = ""
 		for(var enz in data)
 		{
 				var enzdata = document.createElement("li");
-				console.log("data123:", data[enz]);
 				enzdata.innerHTML = enz+processData(data[enz]);
 				enzdata.className = "enzyme";
 				enzymes.appendChild(enzdata);
@@ -227,7 +222,6 @@ function generateTrie(reseqs)
 	{
 		var i = 0;
 		var curposarr = [[retree[0]]];
-		//var curposarr = [[Object.assign({}, retree[0])]];
 		var curposarrnew = [];
 		var chars;
 		for(var _char of seq)
@@ -239,7 +233,6 @@ function generateTrie(reseqs)
 			{
 				chars = ambigs[_char];
 			}
-			console.log("debug:", chars);
 			var j = 0
 			for(var curpos of curposarr)
 			{
@@ -256,45 +249,32 @@ function generateTrie(reseqs)
 						var _new = addels(curpos[_char2][1], enzl[1]);
 						curpos[_char2][1] = _new;
 					}
-					//console.log("errorcheck:", curpos[_char2]);
 					curposarrnew.push([curpos[_char2][0]]);
 				}
-				//console.log("errorcheck:", prevposarr[j]);
-				//prevposarr[j] = [Object.assign(prevposarr[j], curpos)];
 				j = j+1;
 			}
-			//prevpos = [prevpos[0]];
 			curposarr = curposarrnew;
 			i = i+1;
 		}
 	}
-	console.log("retree:", retree);
 	return retree;
 }
 
 function triesearch(retree, seq)
 {
-	//console.log("seq:", seq);
-	//console.log("retree:", retree);
 	var sitestree = {};
 	var i = 0;
 	for(var _char of seq)
 	{
 		var j = i*1;
 		var curpos = retree;
-		//console.log("info", curpos[0], seq[j], j, seq.length, j<seq.length, curpos[0].hasOwnProperty(seq[j]));
 		while(j<seq.length && curpos[0].hasOwnProperty(seq[j]))
 		{
-			//console.log("test!!!!");
-			//console.log("curpos_1:", curpos);
 			curpos = curpos[0][seq[j]];
 			j = j+1;
-			//console.log("curpos_2:", curpos);
 			var newsitestree = curpos[1];
-			//console.log("newsitestree:", newsitestree);
 			for(var site of newsitestree)
 			{
-				//console.log("site:", site);
 				if(!sitestree.hasOwnProperty(site))
 				{
 					sitestree[site] = [i];
