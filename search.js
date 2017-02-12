@@ -92,10 +92,18 @@ function initExample()
 
 function validateInput()
 {
+	var fasta_flag = false;
 	var dataobj = {valid:true, errors:[], notices:[]};
 	var val = box.value.toUpperCase().replace(RegExp(/>.*?\n/g), '').replace(new RegExp(/\s/g), '');
 	var strbases = "ATCG";
-	if(val == "")
+	if(val.length == 0 && box.value.toUpperCase().replace(new RegExp(/\s/g), '').length > 0)
+	{
+		dataobj.valid = false;
+		dataobj.errors.push("Detected FASTA file is empty.");
+		fasta_flag = true;
+
+	}
+	if(val == "" && !fasta_flag)
 	{
 		dataobj.valid = false;
 		dataobj.notices.push("Please enter a DNA sequence, <br>or <a class=\"btn-link\" onclick=\"initExample()\">use an example sequence</a>.");
