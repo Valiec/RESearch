@@ -18,7 +18,7 @@ function init()
 	updateErrors(validData.errors, validData.notices);
 	if(inputValid)
 	{
-		var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
+		var val = box.value.toUpperCase().replace(RegExp(/>.*?\n/g), '').replace(new RegExp(/\s/g), '');
 		document.getElementById("output").className = "output";
 		updateErrors(validData.errors, validData.notices);
 		var data = triesearch(retree, val);
@@ -68,7 +68,7 @@ function initExample()
 	inputValid = validData.valid;
 	if(inputValid)
 	{
-		var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
+		var val = box.value.toUpperCase().replace(RegExp(/>.*?\n/g), '').replace(new RegExp(/\s/g), '');
 		document.getElementById("output").className = "output";
 	}
 	else
@@ -93,7 +93,7 @@ function initExample()
 function validateInput()
 {
 	var dataobj = {valid:true, errors:[], notices:[]};
-	var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
+	var val = box.value.toUpperCase().replace(RegExp(/>.*?\n/g), '').replace(new RegExp(/\s/g), '');
 	var strbases = "ATCG";
 	if(val == "")
 	{
@@ -155,7 +155,7 @@ function updateErrors(errors, notices)
 
 
 var seqhandler = function(event){
-	var val = box.value.toUpperCase().replace(new RegExp(/\s/g), '');
+	var val = box.value.toUpperCase().replace(RegExp(/>.*?\n/g), '').replace(new RegExp(/\s/g), '');
 	var strbases = "ATCG";
 
 	validData = validateInput();
