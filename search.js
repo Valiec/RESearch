@@ -103,6 +103,11 @@ function validateInput()
 		dataobj.valid = false;
 		dataobj.notices.push("Please enter a DNA sequence, <br>or <a class=\"btn-link\" onclick=\"initExample()\">use an example sequence</a>.");
 	}
+	if(val.length > 1000000)
+	{
+		dataobj.valid = false;
+		dataobj.errors.push("Search sequence is too long (limit: 1 Mb).");
+	}
 	for(i = 0; i<val.length; i++)
 	{
 		if(!strbases.includes(val[i]))
