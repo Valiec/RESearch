@@ -1,5 +1,5 @@
 # RESearch
 
-Working demo at: Coming soon!
+Working demo at: https://valiec.github.io/RESearch
 
-Coming soon!
+RESearch is a web tool which searches long DNA sequences for restriction enzyme sites.
